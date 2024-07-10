@@ -1,6 +1,6 @@
 '''
 这是一个随机点名程序.
-先读取csv文件(文件名必须为NameList.csv!),
+先读取csv文件,
 再利用random模块随机抽取,
 最后用tkinter模块展示结果.
 
@@ -9,27 +9,33 @@
 import random
 import tkinter as tk
 import csv
+from tkinter import messagebox as msg
+from tkinter.filedialog import askopenfilename
 
 root = tk.Tk()
 root.title("随机点名器")
-root.geometry("500x200")
+root.geometry("520x260")
+root.wm_resizable(0,0)
 var = tk.StringVar()
 
-def read():
-    global column
-    with open("NameList.csv") as n:
-        reader = csv.reader(n)
-        column = [row[0] for row in reader]
 
-def choiceName():
+def read(): #读取
+        global column
+        global open_file
+        open_file = askopenfilename(title="请选择文件",filetypes=[("csv文件","*.csv")])
+        with open(open_file) as m:
+            reader = csv.reader(m)
+            column = [row[0] for row in reader]
+def choiceName(): #抽取
     t = random.choice(column)
     var.set(t)
 
-l1 = tk.Label(root,textvariable=var,font=('黑体',100),width=300,height=150)
-b1 = tk.Button(root,text='抽取',command=choiceName)
-b2 = tk.Button(root,text="读取文件",command=read)
-b1.pack()
-b2.pack()
-l1.pack()
+showLable = tk.Label(root,textvariable=var,font=('黑体',100),width=300,height=150)
+choiceBut = tk.Button(root,text='抽取',command=choiceName)
+readBut_tj = tk.Button(root,text="读取文件",command=read)
+
+readBut_tj.pack()
+choiceBut.pack()
+showLable.pack()
 
 root.mainloop()
