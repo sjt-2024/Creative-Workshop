@@ -23,9 +23,12 @@ def read(): #读取
         global column
         global open_file
         open_file = askopenfilename(title="请选择文件",filetypes=[("csv文件","*.csv")])
-        with open(open_file) as m:
-            reader = csv.reader(m)
-            column = [row[0] for row in reader]
+        try:
+            with open(open_file) as m:
+                reader = csv.reader(m)
+                column = [row[0] for row in reader]
+        except FileNotFoundError:
+            pass
 def choiceName(): #抽取
     t = random.choice(column)
     var.set(t)
