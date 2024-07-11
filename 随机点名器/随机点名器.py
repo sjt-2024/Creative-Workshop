@@ -30,8 +30,13 @@ def read(): #读取
         except FileNotFoundError:
             pass
 def choiceName(): #抽取
-    t = random.choice(column)
-    var.set(t)
+    try:
+        t = random.choice(column)
+        var.set(t)
+    except NameError:
+        print(msg.showerror(title="错误",message="请先读取文件!"))
+    except UnboundLocalError:
+        pass
 
 showLable = tk.Label(root,textvariable=var,font=('黑体',100),width=300,height=150)
 choiceBut = tk.Button(root,text='抽取',command=choiceName)
